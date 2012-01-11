@@ -1,4 +1,4 @@
- var couchapp = require('couchapp')
+var couchapp = require('couchapp')
   , path = require('path')
   ;
 
@@ -16,26 +16,20 @@ ddoc =
   }
   ;
 
-ddoc.views.category = {map: function(doc) {emit(doc.category, null);},reduce:'_count'}
-ddoc.views.commentCount = {map: function(doc) {emit(doc.commentCount, null);}}
-ddoc.views.duration = {map: function(doc) {emit(doc.duration, null);}}
-ddoc.views.favoriteCount = {map: function(doc) {emit(doc.favoriteCount, null);}}
-ddoc.views.likeCount = {map: function(doc) {emit(doc.likeCount, null);}}
-ddoc.views.rating = {map: function(doc) {emit(doc.rating, null);}}
-ddoc.views.ratingCount = {map: function(doc) {emit(doc.ratingCount, null);}}
-ddoc.views.title = {map: function(doc) {emit(doc.title, null);}}
-ddoc.views.updated = {map: function(doc) {emit(doc.updated, null);}}
-ddoc.views.uploaded = {map: function(doc) {emit(doc.uploaded, null);}}
-ddoc.views.uploader = {map: function(doc) {emit(doc.uploader, null);},reduce:'_count'}
-ddoc.views.viewCount = {map: function(doc) {emit(doc.viewCount, null);}}
-
-ddoc.views.tag = {
+ddoc.views.category = {
   map: function(doc) {
-    for(i in doc.tags) {
-      emit(doc.tags[i], null);
+    if(doc.type == 'yt-video') {
+      emit(doc.category, null);
     }
-  }, 
-  reduce: '_count'
+  },reduce:'_count'
+}
+
+ddoc.views.playlist_title = {
+  map: function(doc) {
+    if(doc.type == 'yt-playlist') {
+      emit(doc.title, null);
+    }
+  }
 }
 
 ddoc.lists.html = function(head, req) {
@@ -58,5 +52,25 @@ ddoc.validate_doc_update = function (newDoc, oldDoc, userCtx) {
 }
 
 couchapp.loadAttachments(ddoc, path.join(__dirname, 'attachments'));
+// ddoc.views.commentCount = {map: function(doc) {emit(doc.commentCount, null);}}
+// ddoc.views.duration = {map: function(doc) {emit(doc.duration, null);}}
+// ddoc.views.favoriteCount = {map: function(doc) {emit(doc.favoriteCount, null);}}
+// ddoc.views.likeCount = {map: function(doc) {emit(doc.likeCount, null);}}
+// ddoc.views.rating = {map: function(doc) {emit(doc.rating, null);}}
+// ddoc.views.ratingCount = {map: function(doc) {emit(doc.ratingCount, null);}}
+// ddoc.views.title = {map: function(doc) {emit(doc.title, null);}}
+// ddoc.views.updated = {map: function(doc) {emit(doc.updated, null);}}
+// ddoc.views.uploaded = {map: function(doc) {emit(doc.uploaded, null);}}
+// ddoc.views.uploader = {map: function(doc) {emit(doc.uploader, null);},reduce:'_count'}
+// ddoc.views.viewCount = {map: function(doc) {emit(doc.viewCount, null);}}
+// ddoc.views.tag = {
+//   map: function(doc) {
+//     for(i in doc.tags) {
+//       emit(doc.tags[i], null);
+//     }
+//   }, 
+//   reduce: '_count'
+// }
+// 
 
 module.exports = ddoc;
