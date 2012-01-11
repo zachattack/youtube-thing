@@ -23,7 +23,11 @@ while results = fetch_results
   items = results['data']['items']
   # some youtube ids start with _, which is a no-no for couch
   # lets append 'video-' to the id.
-  items.collect!{|item| item['_id'] = 'video-'+item['id']; item}
+  items.collect!{|item| 
+    item['_id'] = 'yt-video-'+item['id']
+    item['type'] = 'yt-video'
+    item
+  }
   @couch.bulk_save(items)
   @params['start-index'] = @params['start-index'].to_i + @params['max-results'].to_i
 end
