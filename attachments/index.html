@@ -2,10 +2,11 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <title>index</title>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-  <script type="text/javascript" charset="utf-8">
-    google.load("jquery", "1.7.1");
-    google.load("jqueryui", "1.8.16");
-  </script>
+<script type="text/javascript" charset="utf-8">
+  google.load("jquery", "1.7.1");
+  google.load("jqueryui", "1.8.16");
+</script>
+<script type='text/javascript' src='jsrender.js'></script>
 </head>
 <body>
   <div id='sidebar' style='display:inline-block;width:300px;float:left;border:1px solid black;'>
@@ -14,46 +15,52 @@
   </div>
   <div id='main' style='border:1px solid black;margin-left:301px;padding:10px;'>
     <h1></h1>
-    <ul id='videos'>
+    <ul id='playlist'>
     </ul>
   </div>
 </body>
+<script id='entryTemplate' type='text/x-jquery-tmpl'>
+  <li class='entry'>
+    <span class='thumbnail'>
+      <img src='{{=thumbnail}}' />
+    </span>
+    <a href='{{=href}}' class='title' target='_blank'>{{=title}}</a>
+  </li>
+</script>
 <script type="text/javascript" charset="utf-8">
   $(function(){
-    var design = "_rewrite/api/_design/by"
-    var view = design + '/_view/playlist_title'
-    var params = {
-      include_docs: true,
-    };
+    var design = "_rewrite/api/_design/by";
+    var view = design + '/_view/playlist_title';
     
     $.ajax({
       url: view,
-      data: params,
+      data: {include_docs:true},
       dataType: 'json',
       success: function(response) {
-        var key, doc;
+        var row;
         for(var i in response.rows) {
-          key = response.rows[i].key;
-          id  = response.rows[i].id;
-          doc = response.rows[i].doc;
-          var pl_li = $("<li>").attr('id', id).addClass('playlist');
-          pl_li.data('doc', doc); // todo: do something with this
-          var pl_a  = $("<a>").attr('href', '#').attr('id', id).text(key);
+          row = response.rows[i];
+          var pl_li = $("<li>").attr('id', row.id).addClass('playlist');
+          pl_li.data('doc', row.doc); // todo: do something with this
+          var pl_a  = $("<a>").attr('href', '#').attr('id', row.id).text(row.key);
           $('#playlists').append(pl_li.html(pl_a));
         }
       }
-    })
+    });
   });
   
   $('#playlists li').live('click', function() {
     var doc = $(this).data('doc');
-    var title, vid_li;
     $('#main h1').text(doc.title);
-    $('#videos li').remove();
+    $('#playlist li').remove();
     for(var i in doc.items) {
       var video = doc.items[i].video;
-      var link = $("<a>").attr({href: video.content[5], target: '_blank'}).text(video.title);
-      $('#videos').append($("<li>").addClass('video').html(link));
+      // console.log(video);
+      $('#playlist').append($('#entryTemplate').render({
+        title: video.title,
+        thumbnail: video.thumbnail.sqDefault,
+        href: video.content[5]
+      }));
     }
   });
 </script>
