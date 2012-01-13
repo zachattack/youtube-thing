@@ -1,9 +1,51 @@
-#sxswYoutubePlaylistWidget .sidebar {
-	display: none;
-	width: 300px;
-	float: left;
+#sxswYoutubePlaylistWidget {
+  font-family: Helvetica;
+  font-size: .8em;
 }
 
-#sxswYoutubePlaylistWidget .viewer {
-/*	margin-left: 315px;*/
+#sxswYoutubePlaylistWidget a:link, a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+#sxswYoutubePlaylistWidget a:hover {
+  text-decoration: underline;
+}
+
+#sxswYoutubePlaylistWidget .playlists {
+/*	display: inline-block;*/
+	display: none;
+/*  width: 300px;*/
+/*  float: left;*/
+}
+
+#sxswYoutubePlaylistWidget .playlist ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+#sxswYoutubePlaylistWidget .playlist ul li img.thumbnail {
+  float: left;
+  padding: 0px 5px 0px 5px;
+}
+#sxswYoutubePlaylistWidget .playlist ul li {
+/*  clear: left;*/
+  height: 95px;
+  padding-top: 5px;
+  background-image: -webkit-linear-gradient(#ccc, #aaa);
+}
+#sxswYoutubePlaylistWidget .playlist {
+  margin-left: 810px;
+  display: inline-block;
+  width: 400px;
+  border: 1px solid black;
+  float: right;
+}
+
+#sxswYoutubePlaylistWidget #viewer {
+  display: inline-block;
+  border: 2px solid black;
+  width: 800px;
+  height: 450px;
+  float: left;
 }

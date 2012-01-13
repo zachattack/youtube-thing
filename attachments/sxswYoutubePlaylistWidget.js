@@ -1,9 +1,10 @@
 $(function(){
   // set up target dom
   var targetEl = $('#sxswYoutubePlaylistWidget');
-  targetEl.append($('<div>').addClass('sidebar').append($('<ul>').attr('id','playlists')));
-  targetEl.append($('<div>').addClass('viewer').html('<h1></h1>').append($('<ul>').attr('id','playlist')));
-
+  targetEl.append($('<div>').append($('<iframe>').attr({id:'viewer'})));
+  targetEl.append($('<div>').addClass('playlists').append($('<ul>').attr('id','playlists')));
+  targetEl.append($('<div>').addClass('playlist').html('<h1></h1>').append($('<ul>').attr('id','playlist')));
+  
   // if we're loaded from file: (e.g. Desktop on localhost), pull the data from the db host.
   // this way, we can fuck with html, css and js without constantly having to sync the files 
   // up to couchdb design doc.
@@ -41,15 +42,22 @@ $(function(){
   // render list of videos.
   targetEl.find('#playlists li').live('click', function() {
     var doc = $(this).data('doc'); // fetch playlist subdata that was stored during playlistFetch
-    targetEl.find('.viewer h1').text(doc.title);
+    targetEl.find('.playlist h1').text(doc.title);
     targetEl.find('#playlist li').remove();
     for(var i in doc.items) {
       var video = doc.items[i].video;
       var vid_li = $('<li>').attr('id',video.id).addClass('entry');
       vid_li.append($('<img>').addClass('thumbnail').attr('src',video.thumbnail.sqDefault));
-      vid_li.append($('<a>').attr({href:video.content[5], target:'_blank'}).text(video.title));
+      vid_li.append($('<a>').attr({href:video.content[5]}).addClass('videolink').text(video.title));
       targetEl.find('#playlist').append(vid_li);
     }
+  });
+  
+  targetEl.find('a.videolink').live('click', function(){
+    var videosrc = $(this).attr('href');
+    console.log(videosrc)
+    targetEl.find('#viewer').attr({src: videosrc})
+    return false;
   });
   
 });
