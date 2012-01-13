@@ -9,6 +9,11 @@ $(function(){
     html('<h1></h1>').
     append($('<ul>').attr('id','playlist')));
   
+  var videoInfo = $('<div>').attr({id:'videoInfo'});
+  videoInfo.append('<h1>');
+  videoInfo.append($('<p>').addClass('description'));
+  targetEl.find('#viewer').append(videoInfo);
+  
   // if we're loaded from file: (e.g. Desktop on localhost), pull the data from the db host.
   // this way, we can fuck with html, css and js without constantly having to sync the files 
   // up to couchdb design doc.
@@ -51,20 +56,28 @@ $(function(){
     for(var i in doc.items) {
       var video = doc.items[i].video;
       var vid_li = $('<li>').attr('id',video.id).addClass('entry');
-      vid_li.append($('<img>').addClass('thumbnail').attr('src',video.thumbnail.sqDefault));
-      vid_li.append($('<a>').attr(
-        {href:"http://www.youtube.com/v/"+video.id+"?version=3"}
-        ).addClass('videolink').text(video.title));
+      vid_li.data('video', video);
+      vid_li.append($('<img>').
+        addClass('thumbnail').
+        attr('src',video.thumbnail.sqDefault));
+      vid_li.append($('<a>').
+        attr({href:video.id}).
+        addClass('videolink').text(video.title));
       targetEl.find('#playlist').append(vid_li);
     }
   });
   
   targetEl.find('#playlist li').live('click', function(){
-    var videosrc = $(this).find('a.videolink').attr('href');
+    var video = $(this).data('video');
+    console.log(video)
+    var videosrc = "http://www.youtube.com/v/"+video.id+"?version=3";
     videosrc = videosrc + "&enablejsapi=1&autoplay=1";
     videosrc = videosrc + "&origin=" + document.location.host;
     console.log(videosrc)
     targetEl.find('#viewer iframe').attr({src: videosrc})
+    var videoInfo = targetEl.find('#videoInfo');
+    videoInfo.find('h1').text(video.title);
+    videoInfo.find('p.description').text(video.description);
     return false;
   });
   
