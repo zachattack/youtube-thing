@@ -13,7 +13,7 @@ $(function(){
   var view = host + design + '/_view/playlist_id';
 
   var couchViewParams = {
-    include_docs:true,
+    include_docs: true,
     key: '"'+targetEl.attr('data-ytid')+'"'
   }
   // grab the playlist data from couchdb and pass it to the success callback
@@ -25,16 +25,17 @@ $(function(){
 
   // iterate through the playlists, storing each one's subdata with its associated li element
   playlistFetch.success(function(response) {
-      var row;
-      for(var i in response.rows) {
-        row = response.rows[i];
-        var pl_li = $("<li>").attr('id', row.id).addClass('playlist');
-        pl_li.data('doc', row.doc); // store playlist data for later rendering
-        var pl_a  = $("<a>").attr('href', '#').attr('id', row.id).text(row.value.title);
-        targetEl.find('#playlists').append(pl_li.html(pl_a));
-      }
+    var row;
+    for(var i in response.rows) {
+      row = response.rows[i];
+      var pl_li = $("<li>").attr('id', row.id).addClass('playlist');
+      pl_li.data('doc', row.doc); // store playlist data for later rendering
+      var pl_a  = $("<a>").attr('href', '#').attr('id', row.id).text(row.value.title);
+      targetEl.find('#playlists').append(pl_li.html(pl_a));
     }
-  );
+    // go ahead and click the playlist link to display the playlist
+    targetEl.find('#playlists li').click();
+  });
 
   // bind click event to each playlist name.
   // render list of videos.
