@@ -1,9 +1,13 @@
 $(function(){
   // set up target dom
   var targetEl = $('#sxswYoutubePlaylistWidget');
-  targetEl.append($('<div>').append($('<iframe>').attr({id:'viewer'})));
-  targetEl.append($('<div>').addClass('playlists').append($('<ul>').attr('id','playlists')));
-  targetEl.append($('<div>').addClass('playlist').html('<h1></h1>').append($('<ul>').attr('id','playlist')));
+  targetEl.append($('<div>').attr({id:'viewer'}).
+    append($('<iframe>')));
+  targetEl.append($('<div>').addClass('playlists').
+    append($('<ul>').attr('id','playlists')));
+  targetEl.append($('<div>').addClass('playlist').
+    html('<h1></h1>').
+    append($('<ul>').attr('id','playlist')));
   
   // if we're loaded from file: (e.g. Desktop on localhost), pull the data from the db host.
   // this way, we can fuck with html, css and js without constantly having to sync the files 
@@ -53,10 +57,10 @@ $(function(){
     }
   });
   
-  targetEl.find('a.videolink').live('click', function(){
-    var videosrc = $(this).attr('href');
+  targetEl.find('#playlist li').live('click', function(){
+    var videosrc = $(this).find('a.videolink').attr('href');
     console.log(videosrc)
-    targetEl.find('#viewer').attr({src: videosrc})
+    targetEl.find('#viewer iframe').attr({src: videosrc})
     return false;
   });
   

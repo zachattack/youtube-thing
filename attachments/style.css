@@ -1,6 +1,7 @@
 #sxswYoutubePlaylistWidget {
   font-family: Helvetica;
   font-size: .8em;
+  width: 1200px;
 }
 
 #sxswYoutubePlaylistWidget a:link, a:visited {
@@ -29,23 +30,33 @@
   padding: 0px 5px 0px 5px;
 }
 #sxswYoutubePlaylistWidget .playlist ul li {
-/*  clear: left;*/
   height: 95px;
   padding-top: 5px;
   background-image: -webkit-linear-gradient(#ccc, #aaa);
 }
+#sxswYoutubePlaylistWidget .playlist ul li:hover {
+  cursor: pointer;
+  background-image: -webkit-linear-gradient(#ccf, #aad);
+}
 #sxswYoutubePlaylistWidget .playlist {
-  margin-left: 810px;
+  background-color: #999;
+  float: right;
   display: inline-block;
   width: 400px;
-  border: 1px solid black;
-  float: right;
+  height: 650px;
+  overflow-y: scroll;
 }
 
 #sxswYoutubePlaylistWidget #viewer {
-  display: inline-block;
-  border: 2px solid black;
+  display: block;
+  background-image: -webkit-linear-gradient(#ccc, #aaa);
+  width: 800px;
+  height: 650px;
+  float: left;
+}
+
+#sxswYoutubePlaylistWidget #viewer iframe {
+  background-color: black;
   width: 800px;
   height: 450px;
-  float: left;
 }
