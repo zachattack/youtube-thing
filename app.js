@@ -21,5 +21,14 @@ ddoc.views.playlist_title = {
     }
   }
 }
+
+ddoc.views.playlist_id = {
+  map: function(doc) {
+    if(doc.type == 'yt-playlist') {
+      emit(doc._id, {"title":doc.title});
+    }
+  }
+}
+
 couchapp.loadAttachments(ddoc, path.join(__dirname, 'attachments'));
 module.exports = ddoc;
