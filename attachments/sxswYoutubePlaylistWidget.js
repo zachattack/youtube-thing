@@ -10,12 +10,16 @@ $(function(){
   // if we're loaded from a couchdb, then host can be empty.
   var host = document.location.protocol == 'file:' ? "http://localhost:5984/youtube-sxsw/_design/by/" : "";
   var design = "_rewrite/api/_design/by";
-  var view = host + design + '/_view/playlist_title';
+  var view = host + design + '/_view/playlist_id';
 
+  var couchViewParams = {
+    include_docs:true,
+    key: '"'+targetEl.attr('data-ytid')+'"'
+  }
   // grab the playlist data from couchdb and pass it to the success callback
   var playlistFetch = $.ajax({
     url: view,
-    data: {include_docs:true},
+    data: couchViewParams,
     dataType: 'jsonp'
   });
 
@@ -26,7 +30,7 @@ $(function(){
         row = response.rows[i];
         var pl_li = $("<li>").attr('id', row.id).addClass('playlist');
         pl_li.data('doc', row.doc); // store playlist data for later rendering
-        var pl_a  = $("<a>").attr('href', '#').attr('id', row.id).text(row.key);
+        var pl_a  = $("<a>").attr('href', '#').attr('id', row.id).text(row.value.title);
         targetEl.find('#playlists').append(pl_li.html(pl_a));
       }
     }
