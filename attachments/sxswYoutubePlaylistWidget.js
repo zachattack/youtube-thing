@@ -2,7 +2,7 @@ $(function(){
   // set up target dom
   var targetEl = $('#sxswYoutubePlaylistWidget');
   targetEl.append($('<div>').addClass('sidebar').append($('<ul>').attr('id','playlists')));
-  targetEl.append($('<div>').addClass('viewer').html('<h1></h1').append($('<ul>').attr('id','playlist')));
+  targetEl.append($('<div>').addClass('viewer').html('<h1></h1>').append($('<ul>').attr('id','playlist')));
 
   // if we're loaded from file: (e.g. Desktop on localhost), pull the data from the db host.
   // this way, we can fuck with html, css and js without constantly having to sync the files 
