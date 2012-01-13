@@ -1,0 +1,9 @@
+#sxswYoutubePlaylistWidget .sidebar {
+	display: inline-block;
+	width: 300px;
+	float: left;
+}
+
+#sxswYoutubePlaylistWidget .viewer {
+	margin-left: 315px;
+}
