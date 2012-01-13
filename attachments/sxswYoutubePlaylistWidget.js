@@ -52,13 +52,17 @@ $(function(){
       var video = doc.items[i].video;
       var vid_li = $('<li>').attr('id',video.id).addClass('entry');
       vid_li.append($('<img>').addClass('thumbnail').attr('src',video.thumbnail.sqDefault));
-      vid_li.append($('<a>').attr({href:video.content[5]}).addClass('videolink').text(video.title));
+      vid_li.append($('<a>').attr(
+        {href:"http://www.youtube.com/v/"+video.id+"?version=3"}
+        ).addClass('videolink').text(video.title));
       targetEl.find('#playlist').append(vid_li);
     }
   });
   
   targetEl.find('#playlist li').live('click', function(){
     var videosrc = $(this).find('a.videolink').attr('href');
+    videosrc = videosrc + "&enablejsapi=1&autoplay=1";
+    videosrc = videosrc + "&origin=" + document.location.host;
     console.log(videosrc)
     targetEl.find('#viewer iframe').attr({src: videosrc})
     return false;
