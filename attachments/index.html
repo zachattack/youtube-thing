@@ -27,40 +27,4 @@
     <a href='{{=href}}' class='title' target='_blank'>{{=title}}</a>
   </li>
 </script>
-<script type="text/javascript" charset="utf-8">
-  $(function(){
-    var design = "_rewrite/api/_design/by";
-    var view = design + '/_view/playlist_title';
-    
-    $.ajax({
-      url: view,
-      data: {include_docs:true},
-      dataType: 'json',
-      success: function(response) {
-        var row;
-        for(var i in response.rows) {
-          row = response.rows[i];
-          var pl_li = $("<li>").attr('id', row.id).addClass('playlist');
-          pl_li.data('doc', row.doc); // todo: do something with this
-          var pl_a  = $("<a>").attr('href', '#').attr('id', row.id).text(row.key);
-          $('#playlists').append(pl_li.html(pl_a));
-        }
-      }
-    });
-  });
-  
-  $('#playlists li').live('click', function() {
-    var doc = $(this).data('doc');
-    $('#main h1').text(doc.title);
-    $('#playlist li').remove();
-    for(var i in doc.items) {
-      var video = doc.items[i].video;
-      // console.log(video);
-      $('#playlist').append($('#entryTemplate').render({
-        title: video.title,
-        thumbnail: video.thumbnail.sqDefault,
-        href: video.content[5]
-      }));
-    }
-  });
-</script>
+<script type="text/javascript" charset="utf-8" src="sxswYoutubePlaylistWidget.js"></script>
