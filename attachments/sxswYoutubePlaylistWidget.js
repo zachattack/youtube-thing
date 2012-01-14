@@ -1,18 +1,9 @@
 $(function(){
   // set up target dom
-  var targetEl = $('#sxswYoutubePlaylistWidget');
-  targetEl.append($('<div>').attr({id:'viewer'}).
-    append($('<iframe>')));
-  targetEl.append($('<div>').addClass('playlists').
-    append($('<ul>').attr('id','playlists')));
-  targetEl.append($('<div>').addClass('playlist').
-    html('<h1></h1>').
-    append($('<ul>').attr('id','playlist')));
-  
-  var videoInfo = $('<div>').attr({id:'videoInfo'});
-  videoInfo.append('<h1>');
-  videoInfo.append($('<p>').addClass('description'));
-  targetEl.find('#viewer').append(videoInfo);
+  var targetEl = $('#sxswYoutubePlaylistWidget');  
+  targetEl.append($('<div>').attr({id:'viewer'}));
+  targetEl.append($('<div>').addClass('playlists').append($('<ul>').attr('id','playlists')));
+  targetEl.append($('<div>').addClass('playlist').append($('<ul>').attr('id','playlist')));
   
   // if we're loaded from file: (e.g. Desktop on localhost), pull the data from the db host.
   // this way, we can fuck with html, css and js without constantly having to sync the files 
@@ -51,7 +42,6 @@ $(function(){
   // render list of videos.
   targetEl.find('#playlists li').live('click', function() {
     var doc = $(this).data('doc'); // fetch playlist subdata that was stored during playlistFetch
-    targetEl.find('.playlist h1').text(doc.title);
     targetEl.find('#playlist li').remove();
     for(var i in doc.items) {
       var video = doc.items[i].video;
@@ -69,16 +59,17 @@ $(function(){
   
   targetEl.find('#playlist li').live('click', function(){
     var video = $(this).data('video');
-	$(this).addClass('active').siblings().removeClass('active');
-    console.log(video)
+    var viewer = targetEl.find('#viewer');
+	  $(this).addClass('active').siblings().removeClass('active');
     var videosrc = "http://www.youtube.com/v/"+video.id+"?version=3";
-    videosrc = videosrc + "&enablejsapi=1&autoplay=1";
-    videosrc = videosrc + "&origin=" + document.location.host;
-    console.log(videosrc)
-    targetEl.find('#viewer iframe').attr({src: videosrc})
-    var videoInfo = targetEl.find('#videoInfo');
-    videoInfo.find('h1').text(video.title);
-    videoInfo.find('p.description').text(video.description);
+    videosrc = videosrc + "&enablejsapi=1&autoplay=1&autohide=1&showinfo=0";
+    var playerObj = $('<object>').attr({width:'630',height:'355'});
+    playerObj.append($('<param>').attr({name:'movie',value:videosrc}).text('&nbsp;'));
+    playerObj.append($('<param>').attr({name:'allowScriptAccess',value:'always'}).text('&nbsp;'));
+    playerObj.append($('<embed>').attr({src:videosrc,type:'application/x-shockwave-flash',allowscriptaccess:'always',width:'630',height:'355'}).text('&nbsp;'));
+    viewer.html(playerObj);
+    viewer.append($('<h2>').text(video.title))
+    viewer.append($('<p>').addClass('description').text(video.description))
     return false;
   });
   
