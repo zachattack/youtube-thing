@@ -69,6 +69,7 @@ $(function(){
   
   targetEl.find('#playlist li').live('click', function(){
     var video = $(this).data('video');
+	$(this).addClass('active').siblings().removeClass('active');
     console.log(video)
     var videosrc = "http://www.youtube.com/v/"+video.id+"?version=3";
     videosrc = videosrc + "&enablejsapi=1&autoplay=1";

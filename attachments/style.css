@@ -1,16 +1,13 @@
 #sxswYoutubePlaylistWidget {
   font-family: Helvetica;
   font-size: .8em;
-  width: 1200px;
+  width: 960px;
+  color: #F8F8F8;
 }
 
 #sxswYoutubePlaylistWidget a:link, a:visited {
-  color: black;
+  color: #F8F8F8;
   text-decoration: none;
-}
-
-#sxswYoutubePlaylistWidget a:hover {
-  text-decoration: underline;
 }
 
 #sxswYoutubePlaylistWidget .playlists {
@@ -32,31 +29,42 @@
 #sxswYoutubePlaylistWidget .playlist ul li {
   height: 95px;
   padding-top: 5px;
-  background-image: -webkit-linear-gradient(#ccc, #aaa);
+  background-color: rgb(38,43,47);
+  border-bottom: 1px solid rgb(69, 78, 83);
 }
 #sxswYoutubePlaylistWidget .playlist ul li:hover {
   cursor: pointer;
-  background-image: -webkit-linear-gradient(#ccf, #aad);
+  background-color: rgb(69, 78, 83);
+}
+#sxswYoutubePlaylistWidget .playlist ul li.active {
+  background-color: rgb(219, 220, 222);
+  color: rgb(69, 78, 83);
+}
+#sxswYoutubePlaylistWidget .playlist ul li.active a {
+  color: rgb(69, 78, 83);
+}
+#sxswYoutubePlaylistWidget .playlist ul li a {
+  font-weight: bold;
 }
 #sxswYoutubePlaylistWidget .playlist {
-  background-color: #999;
+  background-color: rgb(38,43,47);
   float: right;
   display: inline-block;
-  width: 400px;
-  height: 650px;
+  width: 320px;
+  height: 680px;
   overflow-y: scroll;
 }
 
 #sxswYoutubePlaylistWidget #viewer {
   display: block;
-  background-image: -webkit-linear-gradient(#ccc, #aaa);
-  width: 800px;
-  height: 650px;
+  background-color: rgb(38,43,47);
+  width: 635px;
+  height: 680px;
   float: left;
 }
 
 #sxswYoutubePlaylistWidget #viewer iframe {
   background-color: black;
-  width: 800px;
-  height: 450px;
+  width: 630px;
+  height: 355px;
 }
